@@ -1,0 +1,6 @@
+.*
+!.gitignore
+*.[cdo]
+*.gch
+*.out
+*.swp
