@@ -21,11 +21,11 @@
 # define UNDERLINE	"\033[4m"
 
 # define HELP	(\
-	BOLD "NAME\n" RESET \
+	BOLD "\nNAME\n" RESET \
 	"\tipaddr - show information about IPv4 addresses\n\n" \
 	BOLD "SYNOPSYS:\n" RESET \
 	"\tipaddr " UNDERLINE "IPv4 ADDRESS" RESET "/" \
-				UNDERLINE "IPv4 ROUTING PREFIX LENGTH\n\n" \
+				UNDERLINE "ROUTING PREFIX LENGTH\n\n" RESET \
 	)
 
 #endif

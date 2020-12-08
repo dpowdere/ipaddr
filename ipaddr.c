@@ -20,4 +20,5 @@ int	main(int argc, char **argv)
 		printf(HELP);
 		return (FAIL);
 	}
+	(void)argv;
 }
