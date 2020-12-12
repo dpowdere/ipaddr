@@ -13,17 +13,21 @@
 #ifndef IPADDR_H
 # define IPADDR_H
 
+# include <ctype.h>
 # include <errno.h>
 # include <locale.h>
 # include <stddef.h>
 # include <stdint.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <string.h>
 
 # define BASE10	10
 
 # define SUCCESS	0
 # define FAIL		1
+
+# define STDERR	2
 
 # define NL		"\n"
 # define TAB	"\t"
@@ -38,7 +42,11 @@
 # define UNDERLINE	"\033[4m"
 # define YELLOW		"\033[33m"
 
-# define HELP	(\
+# define SEEHELP	( \
+		NL "See program's help using " UNDERLINE "-h" RESET " or " \
+		UNDERLINE "--help" RESET " argument" NL NL)
+
+# define HELP	( \
 	NL \
 	BOLD "NAME" RESET NL \
 	TAB "ipaddr - show information about IPv4 addresses" NL \
@@ -46,7 +54,15 @@
 	BOLD "SYNOPSYS:" RESET NL \
 	TAB "ipaddr " UNDERLINE "IPv4 ADDRESS" RESET "/" \
 				UNDERLINE "ROUTING PREFIX LENGTH" RESET NL \
+	TAB "ipaddr " UNDERLINE "IPv4 ADDRESS" RESET " " \
+				UNDERLINE "NETMASK" RESET NL \
+	TAB "ipaddr " UNDERLINE "IPv4 ADDRESS" RESET NL \
+	TAB "ipaddr " UNDERLINE "NETMASK" RESET NL \
 	NL \
+	)
+
+# define SPECIAL_USE_ADDRESSES	( \
+	UNDERLINE "Special Use IPv4 Addresses (RFC 6890)" \
 	)
 
 typedef union	u_32bits
@@ -59,7 +75,8 @@ typedef struct	s_cidr_ipv4
 {
 	t_32bits	address;
 	t_32bits	mask;
-	int			mask_size;
+	int			prefix_size;
+	int			postfix_size;
 
 	t_32bits	network;
 	t_32bits	broadcast;
@@ -72,12 +89,17 @@ typedef struct	s_cidr_ipv4
 
 extern int		errno;
 
-t_cidr_ipv4		*ft_recognize_cidr_ipv4(char *s, t_cidr_ipv4 *ip);
+t_cidr_ipv4		*ft_recognize_cidr_ipv4(int argc, char **argv, t_cidr_ipv4 *ip);
+char			*ft_recognize_ipv4(char *s, t_32bits *addr);
 uint32_t		ft_big_to_little_endian(t_32bits big);
+int				ft_check_mask(t_32bits addr);
 void			ft_populate_cidr_ipv4_struct(t_cidr_ipv4 *ip);
-void			ft_print_binary(t_32bits addr, int mask_size);
+void			ft_print_binary(t_32bits addr, int prefix_size);
 void			ft_print_decimal(t_32bits addr);
 void			ft_print_info(t_cidr_ipv4 *ip);
+
+int				ft_mask_to_prefix_size(t_32bits mask);
+t_32bits		ft_prefix_size_to_mask(int prefix_size);
 
 # define ft_print_section(x)	printf("%24s ", x);
 
