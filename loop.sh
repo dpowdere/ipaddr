@@ -12,15 +12,24 @@
 # **************************************************************************** #
 
 PROG=./ipaddr
+QUIT_ARG=q
+CLEAR_ARG=c
+
 while true
 do
-	printf 'Input arguments for `'$PROG'` program or type `q` to quit: '
+	echo "'$QUIT_ARG' quit"
+	echo "'$CLEAR_ARG' clear the screen (default action)"
+	printf 'input arguments for `'$PROG'` program: '
 	read -a ARR
-	if [ ${#ARR} -gt 0 ] && [ ${ARR[0]} == "q" ]
+	if [ ${#ARR} -eq 0 ] || [ ${ARR[0]} == "$CLEAR_ARG" ]
+	then
+		clear
+	fi
+	if [ ${#ARR} -gt 0 ] && [ ${ARR[0]} == "$QUIT_ARG" ]
 	then
 		exit 0
 	fi
-	if [ ${#ARR} -gt 0 ]
+	if [ ${#ARR} -gt 0 ] && ! [ ${ARR[0]} == "$CLEAR_ARG" ]
 	then
 		$PROG ${ARR[@]}
 	fi
