@@ -251,8 +251,6 @@ void			ft_print_info(t_cidr_ipv4 *ip)
 
 	printf(NL UNDERLINE "Dot-decimal notation" RESET NL NL);
 
-#	undef COLOR
-#	define COLOR	BLUE
 	ft_print_section("IPv4 Address:");
 	printf(BLUE);
 	ft_print_decimal(ip->address);
